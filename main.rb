@@ -12,7 +12,9 @@ API_KEY = gets.chomp
 query_arr = [
 	["api_key", API_KEY],
 	["method", "flickr.photos.search"],
-	["tags", "kiyomizu"],
+	["tags", "kyoto"],
+	["min_taken_date", "2017-06-01"],
+	["max_taken_date", "2017-09-30"],
 	["has_geo", 1],
 	["extras", "geo,url_h,date_taken,owner_name,description"],
 	["format", "json"],
