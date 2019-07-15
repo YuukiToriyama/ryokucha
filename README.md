@@ -1,4 +1,14 @@
 # Usage
+## 引数の指定のしかた
+```bash
+./main.rb -k [APIキー] -t [検索条件に含めたいタグ] --min-taken-date [撮影日時の下限] --max-taken-date [撮影日時の上限]
+
+./main.rb -k $(cat api_key) -t "kyoto" --min-taken-date "2019-01-01" --max-taken-date "2019-03-01"
+```
+
+例えば上の例の三行めのようにオプションを指定すると、Flickrにジオタグ付きで投稿された画像のうち、`kyoto`のタグを持ち、なおかつ撮影日時が2019年1月1日から3月1日までの間の写真だけが表示されます。
+
+
 ## 用意すべきもの
 - api\_key
 	- `main.rb`でFlickrにアクセスする際必要です。
