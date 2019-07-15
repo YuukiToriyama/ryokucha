@@ -5,13 +5,14 @@ require 'open-uri'
 require 'json'
 require 'securerandom'
 
-API_KEY = ""
+# 標準入力からAPIKEYを読む
+API_KEY = gets.chomp
 
 # FlickrAPIへのアクセス
 query_arr = [
 	["api_key", API_KEY],
 	["method", "flickr.photos.search"],
-	["tags", "kyoto"],
+	["tags", "kiyomizu"],
 	["has_geo", 1],
 	["extras", "geo,url_h,date_taken,owner_name,description"],
 	["format", "json"],
@@ -69,10 +70,13 @@ output_json = JSON.pretty_generate(hash)
 
 # ダウンロードしたJSONを保存する
 file_name = SecureRandom.urlsafe_base64(8)
-File.open("#{file_name}.geojson", "w+b") do |output|
+File.open("docs/geojson/#{file_name}.geojson", "w+b") do |output|
 	output.write(output_json)
 end
 
+system("bash upload_to_github.bash #{file_name}")
+
+=begin
 # ページを表示する
 puts <<EOF
 Content-type: text/html
@@ -88,3 +92,5 @@ Content-type: text/html
 </body>
 </html>
 EOF
+
+=end

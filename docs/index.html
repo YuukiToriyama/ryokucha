@@ -4,12 +4,12 @@
 	<meta charset="UTF-8" />
 	<title>Plotting GeoJson on OpenStreetMap</title>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script>
 	window.onload = function () {
 		// 地図のデフォルトの緯度経度と拡大率
-		var map = L.map('map').setView([34.98,135.75], 9);
+		var map = L.map('map').setView([34.98,135.75], 10);
 
 		// マップにレイヤーおよびマーカーをマッピングする
 		var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -62,7 +62,7 @@
 	</script>
 	<style>
 	#map {
-	  height: 420px;
+	  height: 500px;
 	}
 	</style>
 </head>
