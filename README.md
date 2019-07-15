@@ -4,8 +4,8 @@
 	- `main.rb`でFlickrにアクセスする際必要です。
 	- Flickrのサイトで開発者登録をするともらえます。
 	- [このサイト](https://qiita.com/Saayaman/items/a3066697a108a7e7fc39)を参考にAPIKEYを取得してください。
-	- main.rbに標準入力からAPIKEYを流し込むとFlickrとの通信が始まります。
-		- `cat api_key | ruby main.rb`
+	- `-k`オプションあるいは`--api-key`オプションにAPIKEYを指定してください。
+		- `cat api_key | xargs -I@ ruby main.rb --api-key @`
 - プレビューページ(`docs/index.html`)を動かすためのgithubリポジトリ
 	- CGIに書き換えるのが面倒だったので、flickrとの通信はローカルで行い、整形したgeojsonを`git`コマンドを使って自分のリポジトリにその都度アップする方式を取っています。
 - gitコマンドのインストール

@@ -4,25 +4,34 @@
 require 'open-uri'
 require 'json'
 require 'securerandom'
+require 'optparse'
 
-# 標準入力からAPIKEYを読む
-API_KEY = gets.chomp
-
-# FlickrAPIへのアクセス
-query_arr = [
-	["api_key", API_KEY],
+# クエリテーブル
+query_table = [
+	["api_key", ""],
 	["method", "flickr.photos.search"],
 	["tags", "kyoto"],
-	["min_taken_date", "2016-01-01"],
-	["max_taken_date", "2018-12-31"],
+	["text", ""],
+	["min_taken_date", ""],
+	["max_taken_date", ""],
 	["has_geo", 1],
 	["extras", "geo,url_h,date_taken,owner_name,description"],
 	["format", "json"],
 	["nojsoncallback", 1]
-]
+].to_h
 
+# 引数からパラメータを設定する
+opt = OptionParser.new
+opt.on('-k', '--api-key VALUE') {|v| query_table["api_key"] = v}
+opt.on('-t', '--tag VALUE') {|v| query_table["tags"] = v}
+opt.on('--min-taken-date VALUE') {|v| query_table["min_taken_date"] = v}
+opt.on('--max-taken-date VALUE') {|v| query_table["max_taken_date"] = v}
+opt.on('--text VALUE') {|v| query_table["text"] = v}
+opt.parse(ARGV)
+
+# FlickrAPIへのアクセス
 uri = URI.parse("https://api.flickr.com/services/rest")
-uri.query = URI.encode_www_form(query_arr.to_h)
+uri.query = URI.encode_www_form(query_table)
 puts "リクエストURL: " + uri.to_s
 
 # リクエストを一時ファイルに保存する
