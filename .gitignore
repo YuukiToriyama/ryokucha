@@ -1,2 +1,4 @@
 # apikeyは秘匿にしておく必要あり
 api_key
+# tmp.jsonはいらない
+tmp.json
