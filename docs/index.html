@@ -23,7 +23,7 @@
 		// GeoJsonファイルの読み込み(jQueryを使用)
 		// 参照するgeojsonのファイル名をurlにパラメータとして教えてやる必要があります。
 		var arr = location.search.substring(1).split("="); // URIに付けられたパラメータ名を読み取ってその名前を 
-		var address = "https://raw.githubusercontent.com/YUUKIToriyama/sunshine/master/geojson/" + arr[1] + ".geojson";
+		var address = "https://raw.githubusercontent.com/YUUKIToriyama/ryokucha/master/docs/geojson/" + arr[1] + ".geojson";
 		$.getJSON(address, function(data) {
 			var geojson = L.geoJson(data, {
 				onEachFeature: function (feature, layer) {
