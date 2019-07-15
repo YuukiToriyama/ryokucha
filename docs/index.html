@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Plotting GeoJson on OpenStreetMap</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script>
+	window.onload = function () {
+		// 地図のデフォルトの緯度経度と拡大率
+		var map = L.map('map').setView([34.98,135.75], 9);
+
+		// マップにレイヤーおよびマーカーをマッピングする
+		var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+			attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+			maxZoom: 19
+		});
+		tileLayer.addTo(map);
+		//市ヶ谷
+		//L.marker([35.6910121,139.7333787]).addTo(map);
+
+		// GeoJsonファイルの読み込み(jQueryを使用)
+		// 参照するgeojsonのファイル名をurlにパラメータとして教えてやる必要があります。
+		var arr = location.search.substring(1).split("="); // URIに付けられたパラメータ名を読み取ってその名前を 
+		var address = "https://raw.githubusercontent.com/YUUKIToriyama/sunshine/master/geojson/" + arr[1] + ".geojson";
+		$.getJSON(address, function(data) {
+			var geojson = L.geoJson(data, {
+				onEachFeature: function (feature, layer) {
+					//layer.bindPopup(feature.properties.popupContent);
+					var popupText = `
+					<div style="width: 200px; padding: 20px;">
+						<table>
+							<tr>
+								<td>Image</td>
+								<td><img src="${feature.properties["flickr-metadata"]["url_h"]}" alt="${feature.properties["flickr-metadata"]["title"]}" width="150px" /></td>
+							</tr>
+							<tr>
+								<td>Title></td>
+								<td><p>${feature.properties["flickr-metadata"]["title"]}</p></td>
+							</tr>
+							<tr>
+								<td>Photo by</td>
+								<td><p>${feature.properties["flickr-metadata"]["owner_name"]}(${feature.properties["flickr-metadata"]["owner"]})</p></td>	
+							</tr>
+							<tr>
+								<td>Details</td>
+								<td><p>${feature.properties["flickr-metadata"]["description"]}</p></td>
+							</tr>
+							<tr>
+								<td>Taken-Date</td>
+								<td><p>${feature.properties["flickr-metadata"]["datetaken"]}</p></td>
+							</tr>
+						</table>
+					</div>`;
+					layer.bindPopup(popupText);
+				}
+			});
+			geojson.addTo(map);
+		});
+	}
+	</script>
+	<style>
+	#map {
+	  height: 420px;
+	}
+	</style>
+</head>
+<body>
+	<h1>Plotting GeoJson on OSM(Open Street Map)</h1>
+	<div id="map"></div>
+	<p>html5+leaflet.js+jQuery+OpenStreetMap</p>
+	<small>(c)Copyright 2019 YUUKIToriyama All Rights Reserved.</small>
+</body>
+</html>
