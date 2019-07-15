@@ -15,7 +15,7 @@ query_table = [
 	["min_taken_date", ""],
 	["max_taken_date", ""],
 	["has_geo", 1],
-	["extras", "geo,url_h,date_taken,owner_name,description"],
+	["extras", "geo,url_h,url_sq,date_taken,owner_name,description"],
 	["format", "json"],
 	["nojsoncallback", 1]
 ].to_h
@@ -64,10 +64,11 @@ source["photos"]["photo"].each do |photo|
 			"title": photo["title"],
 			"datetaken": photo["datetaken"],
 			"url_h": photo["url_h"],
+			"url_sq": photo["url_sq"],
 			"height_h": photo["height_h"],
 			"width_h": photo["width_h"],
 			"description": photo["description"]["content"],
-			"owner_name": photo["owner_name"]
+			"owner_name": photo["ownername"]
 		}
 	}
 	tmp["geometry"] = {
