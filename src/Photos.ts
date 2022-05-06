@@ -1,6 +1,10 @@
 import "isomorphic-fetch";
 import * as  queryString from 'query-string';
 
+const toUnixtime = (datetime: Date): number => {
+	return Math.floor(datetime.getTime() / 1000);
+}
+
 /**
  * flickr.photos.search
  * @param api_key 
@@ -26,18 +30,18 @@ export const search = (api_key: string) => {
 			}
 			if (args.upload_date !== undefined) {
 				if (args.upload_date.min !== undefined) {
-					query.min_upload_date = args.upload_date.min.getTime();
+					query.min_upload_date = toUnixtime(args.upload_date.min);
 				}
 				if (args.upload_date.max !== undefined) {
-					query.max_upload_date = args.upload_date.max.getTime();
+					query.max_upload_date = toUnixtime(args.upload_date.max);
 				}
 			}
 			if (args.taken_date !== undefined) {
 				if (args.taken_date.min !== undefined) {
-					query.min_taken_date = args.taken_date.min.getTime();
+					query.min_taken_date = toUnixtime(args.taken_date.min);
 				}
 				if (args.taken_date.max !== undefined) {
-					query.max_taken_date = args.taken_date.max.getTime();
+					query.max_taken_date = toUnixtime(args.taken_date.max);
 				}
 			}
 			if (args.license !== undefined) {
