@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "ESNext",
+		"module": "UMD",
 		"moduleResolution": "Node",
 		"declaration": true,
 		"outDir": "./dist"

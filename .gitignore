@@ -1,6 +1,6 @@
 node_modules
 dist
 # apikeyは秘匿にしておく必要あり
-api_key
+.env
 # tmp.jsonはいらない
 tmp.json

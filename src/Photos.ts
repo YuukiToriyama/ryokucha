@@ -8,107 +8,115 @@ import * as  queryString from 'query-string';
  * @see https://www.flickr.com/services/api/flickr.photos.search.html
  */
 export const search = (api_key: string) => {
-	return async (args: PhotosSearchArguments) => {
-		let query: Record<string, any> = {
-			api_key: api_key,
-			method: "flickr.photos.search",
-			format: "json",
-			nojsoncallback: 1,
-		}
-		if (args.tags !== undefined) {
-			query.tags = args.tags.join(",");
-			query.tag_mode = args.tag_mode || "any";
-		}
-		if (args.text !== undefined) {
-			query.text = args.text;
-		}
-		if (args.upload_date !== undefined) {
-			if (args.upload_date.min !== undefined) {
-				query.min_upload_date = args.upload_date.min.getTime();
+	console.log(api_key)
+	return (args: PhotosSearchArguments) => {
+		return new Promise(async (resolve, reject) => {
+			let query: Record<string, any> = {
+				api_key: api_key,
+				method: "flickr.photos.search",
+				format: "json",
+				nojsoncallback: 1,
 			}
-			if (args.upload_date.max !== undefined) {
-				query.max_upload_date = args.upload_date.max.getTime();
+			if (args.tags !== undefined) {
+				query.tags = args.tags.join(",");
+				query.tag_mode = args.tag_mode || "any";
 			}
-		}
-		if (args.taken_date !== undefined) {
-			if (args.taken_date.min !== undefined) {
-				query.min_taken_date = args.taken_date.min.getTime();
+			if (args.text !== undefined) {
+				query.text = args.text;
 			}
-			if (args.taken_date.max !== undefined) {
-				query.max_taken_date = args.taken_date.max.getTime();
-			}
-		}
-		if (args.license !== undefined) {
-			query.license = args.license;
-		}
-		if (args.sort !== undefined) {
-			query.sort = args.sort;
-		}
-		if (args.bbox !== undefined) {
-			query.bbox = [
-				args.bbox.minimum_longitude,
-				args.bbox.minimum_latitude,
-				args.bbox.maximum_longitude,
-				args.bbox.maximum_latitude
-			].join(",");
-		}
-		if (args.safe_search !== undefined) {
-			query.safe_search = args.safe_search;
-		}
-		if (args.media !== undefined) {
-			query.media = args.media;
-		}
-		if (args.has_geo !== undefined) {
-			query.has_geo = args.has_geo ? 1 : 0;
-		}
-		if (args.is_commons !== undefined) {
-			query.is_commons = args.is_commons;
-		}
-		if (args.in_gallery !== undefined) {
-			query.in_gallery = args.in_gallery;
-		}
-		if (args.is_getty !== undefined) {
-			query.is_getty = args.is_getty;
-		}
-		if (args.extras !== undefined) {
-			query.extras = args.extras.join(",")
-		}
-
-		const baseURL = "https://api.flickr.com/services/rest/";
-		const request = queryString.stringifyUrl({
-			url: baseURL,
-			query: query
-		});
-		const result: PhotosSearchFetchResult = await fetch(request).then(response => {
-			return response.json();
-		});
-
-		const features = [];
-		result.photos.photo.forEach(photo => {
-			const feature = {
-				type: "Feature",
-				properties: {
-					title: photo.title,
-					description: "",
-					//marker-color: "#00ffff",
-					//marker-size: "medium",
-					//marker-symbol: "",
-					frickrMetadata: photo
-				},
-				geometry: {
-					type: "Point",
-					coordinates: [
-						photo.longitude,
-						photo.latitude
-					]
+			if (args.upload_date !== undefined) {
+				if (args.upload_date.min !== undefined) {
+					query.min_upload_date = args.upload_date.min.getTime();
 				}
-			};
-			features.push(feature);
+				if (args.upload_date.max !== undefined) {
+					query.max_upload_date = args.upload_date.max.getTime();
+				}
+			}
+			if (args.taken_date !== undefined) {
+				if (args.taken_date.min !== undefined) {
+					query.min_taken_date = args.taken_date.min.getTime();
+				}
+				if (args.taken_date.max !== undefined) {
+					query.max_taken_date = args.taken_date.max.getTime();
+				}
+			}
+			if (args.license !== undefined) {
+				query.license = args.license;
+			}
+			if (args.sort !== undefined) {
+				query.sort = args.sort;
+			}
+			if (args.bbox !== undefined) {
+				query.bbox = [
+					args.bbox.minimum_longitude,
+					args.bbox.minimum_latitude,
+					args.bbox.maximum_longitude,
+					args.bbox.maximum_latitude
+				].join(",");
+			}
+			if (args.safe_search !== undefined) {
+				query.safe_search = args.safe_search;
+			}
+			if (args.media !== undefined) {
+				query.media = args.media;
+			}
+			if (args.has_geo !== undefined) {
+				query.has_geo = args.has_geo ? 1 : 0;
+			}
+			if (args.is_commons !== undefined) {
+				query.is_commons = args.is_commons;
+			}
+			if (args.in_gallery !== undefined) {
+				query.in_gallery = args.in_gallery;
+			}
+			if (args.is_getty !== undefined) {
+				query.is_getty = args.is_getty;
+			}
+			if (args.extras !== undefined) {
+				query.extras = args.extras.join(",")
+			}
+
+			const baseURL = "https://api.flickr.com/services/rest/";
+			const request = queryString.stringifyUrl({
+				url: baseURL,
+				query: query
+			});
+			console.log(request)
+			const result: PhotosSearchFetchResult = await fetch(request).then(response => {
+				return response.json();
+			});
+
+			if (result.stat === "fail") {
+				return reject(result);
+			}
+
+			const features = [];
+			result.photos.photo.forEach(photo => {
+				const feature = {
+					type: "Feature",
+					properties: {
+						title: photo.title,
+						description: "",
+						//marker-color: "#00ffff",
+						//marker-size: "medium",
+						//marker-symbol: "",
+						frickrMetadata: photo
+					},
+					geometry: {
+						type: "Point",
+						coordinates: [
+							photo.longitude,
+							photo.latitude
+						]
+					}
+				};
+				features.push(feature);
+			});
+			return resolve({
+				type: "FeatureCollection",
+				features: features
+			});
 		});
-		return {
-			type: "FeatureCollection",
-			features: features
-		}
 	}
 }
 
