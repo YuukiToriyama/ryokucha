@@ -1,20 +1,15 @@
-import * as Photos from './Photos';
-
-interface FrickrAPISettings {
-	key: string // API Key
-	secret?: string // API Secret
-}
+import { Photos } from './Photos';
+import { FrickrAPISettings } from './types';
 
 export class FrickrAPI {
-	key: string = "";
-	secret: string = "";
+	key: string;
+	secret: string;
+	photos: ReturnType<typeof Photos>; // 関数群
 
 	constructor(settings: FrickrAPISettings) {
 		this.key = settings.key;
 		this.secret = settings.secret || "";
+		this.photos = Photos(settings);
 	}
 
-	public photos = {
-		search: Photos.search(this.key)
-	}
 }
