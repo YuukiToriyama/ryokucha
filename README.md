@@ -13,14 +13,14 @@ APIKey=0123456789abcdefghgi
 ```
 
 ```javascript
-import { FrickrAPI } from "@toriyama/ryokucha";
+import { FlickrAPI } from "@toriyama/ryokucha";
 import "dotenv/config";
 
 (async () => {
-	const frickr = new FrickrAPI({
+	const flickr = new FlickrAPI({
 		key: process.env.APIKey,
 	});
-	const response = await frickr.photos.search({
+	const response = await flickr.photos.search({
 		tags: ["kyoto", "shrine"],
 		taken_date: {
 			min: new Date(2015, 1, 1),

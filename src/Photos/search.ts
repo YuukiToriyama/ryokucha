@@ -111,7 +111,7 @@ export class PhotosSearchResult {
 					//marker-color: "#00ffff",
 					//marker-size: "medium",
 					//marker-symbol: "",
-					frickrMetadata: photo
+					flickrMetadata: photo
 				},
 				geometry: {
 					type: "Point",

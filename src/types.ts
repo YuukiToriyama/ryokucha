@@ -11,7 +11,7 @@ export type GeoJson = {
 	features: Feature[]
 }
 
-export interface FrickrAPISettings {
+export interface FlickrAPISettings {
 	key: string // API Key
 	secret?: string // API Secret
 }

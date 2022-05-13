@@ -1,7 +1,7 @@
 {
 	"name": "@toriyama/ryokucha",
 	"version": "0.0.1",
-	"description": "Generate geojson from FrickrAPI",
+	"description": "Generate geojson from FlickrAPI",
 	"main": "dist/index.js",
 	"scripts": {
 		"build": "rm -rf ./dist && tsc",
@@ -12,7 +12,7 @@
 		"url": "git+https://github.com/YUUKIToriyama/ryokucha.git"
 	},
 	"keywords": [
-		"frickr"
+		"flickr"
 	],
 	"author": "YUUKIToriyama <github@toriyama.dev>",
 	"license": "MIT",
