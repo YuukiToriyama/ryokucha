@@ -1,4 +1,4 @@
-import { Photos } from './Photos';
+import { Photos } from './Photos/index';
 import { FlickrAPISettings } from './types';
 
 export class FlickrAPI {
@@ -11,5 +11,4 @@ export class FlickrAPI {
 		this.secret = settings.secret || "";
 		this.photos = Photos(settings);
 	}
-
 }
