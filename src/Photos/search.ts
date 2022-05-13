@@ -87,9 +87,10 @@ export const search = async (api_key: string, args: PhotosSearchArguments): Prom
 
 	if (result.stat === "fail") {
 		throw new Error("API error: " + JSON.stringify(result));
+	} else {
+		return new PhotosSearchResult(result);
 	}
 
-	return new PhotosSearchResult(result);
 }
 
 export class PhotosSearchResult {
