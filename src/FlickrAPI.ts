@@ -1,14 +1,12 @@
 import { Photos } from './Photos/index';
-import { FlickrAPISettings } from './types';
+import { FlickrAPISettings } from './FlickrAPISettings';
 
 export class FlickrAPI {
-	key: string;
-	secret: string;
+	settings: FlickrAPISettings;
 	photos: ReturnType<typeof Photos>; // 関数群
 
-	constructor(settings: FlickrAPISettings) {
-		this.key = settings.key;
-		this.secret = settings.secret || "";
+	constructor(settings: { key: string, secret?: string }) {
+		this.settings = new FlickrAPISettings(settings.key, settings.secret);
 		this.photos = Photos(settings);
 	}
 }

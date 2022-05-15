@@ -2,16 +2,18 @@ import "isomorphic-fetch";
 import * as  queryString from 'query-string';
 import { toUnixtime, ErrorFromAPIServer } from './utils';
 import { GeoJson } from '../types';
+import { FlickrAPISettings } from '../FlickrAPISettings';
 
 /**
  * flickr.photos.search
- * @param api_key 
+ * @param settings
+ * @param args 
  * @returns (args: PhotosSearchArguments) => Promise<PhotosSearchResult>
  * @see https://www.flickr.com/services/api/flickr.photos.search.html
  */
-export const search = async (api_key: string, args: PhotosSearchArguments): Promise<PhotosSearchResult> => {
+export const search = async (settings: FlickrAPISettings, args: PhotosSearchArguments): Promise<PhotosSearchResult> => {
 	let query: Record<string, any> = {
-		api_key: api_key,
+		api_key: settings.key,
 		method: "flickr.photos.search",
 		format: "json",
 		nojsoncallback: 1,

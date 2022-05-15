@@ -10,8 +10,3 @@ export type GeoJson = {
 	type: "FeatureCollection"
 	features: Feature[]
 }
-
-export interface FlickrAPISettings {
-	key: string // API Key
-	secret?: string // API Secret
-}
