@@ -1,6 +1,6 @@
 import "isomorphic-fetch";
 import * as  queryString from 'query-string';
-import { toUnixtime } from './utils';
+import { toUnixtime, ErrorFromAPIServer } from './utils';
 import { GeoJson } from '../types';
 
 /**
@@ -81,22 +81,24 @@ export const search = async (api_key: string, args: PhotosSearchArguments): Prom
 		query: query
 	});
 	console.log(request)
-	const result: ResponseFromAPIServer = await fetch(request).then(response => {
+	const result: ResponseFromAPIServer | ErrorFromAPIServer = await fetch(request).then(response => {
 		return response.json();
 	});
 
-	if (result.stat === "fail") {
-		throw new Error("API error: " + JSON.stringify(result));
+	if (result.stat === "ok") {
+		return new PhotosSearchResult(request, result);
 	} else {
-		return new PhotosSearchResult(result);
+		throw new Error("API error: " + JSON.stringify(result));
 	}
 
 }
 
 export class PhotosSearchResult {
+	request: URL
 	response: ResponseFromAPIServer
 
-	constructor(response: ResponseFromAPIServer) {
+	constructor(request: string, response: ResponseFromAPIServer) {
+		this.request = new URL(request);
 		this.response = response;
 	}
 
@@ -163,7 +165,7 @@ interface ResponseFromAPIServer {
 			width_sq?: any
 		}[]
 	}
-	stat: string
+	stat: "ok"
 }
 
 export interface PhotosSearchArguments {
